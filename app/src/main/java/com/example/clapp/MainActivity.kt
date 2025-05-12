@@ -27,7 +27,10 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     Greeting(
                         name = "Android",
-                        modifier = Modifier.padding(innerPadding)
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .fillMaxSize()
+                            .background(Color(0xFF001F54))
                     )
                 }
             }
