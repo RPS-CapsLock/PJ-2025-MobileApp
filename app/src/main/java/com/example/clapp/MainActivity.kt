@@ -5,11 +5,11 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,14 +23,14 @@ class MainActivity : ComponentActivity() {
             CLAppTheme {
                 Scaffold(modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFF001F54))
+                    .background(Color(0xFF001F54)) // Dark blue background
                 ) { innerPadding ->
                     Greeting(
-                        name = "Android",
+                        word = "A",
                         modifier = Modifier
                             .padding(innerPadding)
                             .fillMaxSize()
-                            .background(Color(0xFF001F54))
+                            .background(Color(0xFF001F54)) // Ensure background color consistency
                     )
                 }
             }
@@ -39,17 +39,23 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
+fun Greeting(word: String, modifier: Modifier = Modifier) {
+    Box(
+        contentAlignment = Alignment.Center, // Center the text within the Box
         modifier = modifier
-    )
+    ) {
+        Text(
+            text = word,
+            color = Color.White, // White text color
+            modifier = Modifier
+        )
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     CLAppTheme {
-        Greeting("Android")
+        Greeting("A")
     }
 }
