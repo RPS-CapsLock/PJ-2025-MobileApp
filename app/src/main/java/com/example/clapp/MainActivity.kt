@@ -23,14 +23,14 @@ class MainActivity : ComponentActivity() {
             CLAppTheme {
                 Scaffold(modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(0xFF001F54)) // Dark blue background
+                    .background(Color(0xFF001F54))
                 ) { innerPadding ->
                     Greeting(
                         word = "A",
                         modifier = Modifier
                             .padding(innerPadding)
                             .fillMaxSize()
-                            .background(Color(0xFF001F54)) // Ensure background color consistency
+                            .background(Color(0xFF001F54))
                     )
                 }
             }
@@ -41,12 +41,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun Greeting(word: String, modifier: Modifier = Modifier) {
     Box(
-        contentAlignment = Alignment.Center, // Center the text within the Box
+        contentAlignment = Alignment.TopCenter,
         modifier = modifier
     ) {
         Text(
             text = word,
-            color = Color.White, // White text color
+            color = Color.White,
             modifier = Modifier
         )
     }
