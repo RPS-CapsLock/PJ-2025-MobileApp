@@ -13,7 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.viewinterop.AndroidView
 import com.example.clapp.ui.theme.CLAppTheme
+import android.view.LayoutInflater
+import android.widget.TextView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,12 +28,13 @@ class MainActivity : ComponentActivity() {
                     .fillMaxSize()
                     .background(Color(0xFF001F54))
                 ) { innerPadding ->
-                    Greeting(
-                        word = "A",
+                    AndroidView(
+                        factory = { context ->
+                            LayoutInflater.from(context).inflate(R.layout.main, null)
+                        },
                         modifier = Modifier
                             .padding(innerPadding)
                             .fillMaxSize()
-                            .background(Color(0xFF001F54))
                     )
                 }
             }
@@ -38,24 +42,9 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(word: String, modifier: Modifier = Modifier) {
-    Box(
-        contentAlignment = Alignment.TopCenter,
-        modifier = modifier
-    ) {
-        Text(
-            text = word,
-            color = Color.White,
-            modifier = Modifier
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     CLAppTheme {
-        Greeting("A")
     }
 }
