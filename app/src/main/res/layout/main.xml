@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#001F54"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
         android:id="@+id/textView"
@@ -14,4 +15,13 @@
         android:textColor="#FFFFFF"
         android:textSize="24sp"
         android:textStyle="bold|italic" />
+
+    <Button
+        android:id="@+id/qrScanButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Skeniraj QR kodo"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="#03DAC5"
+        android:textColor="#000000"/>
 </LinearLayout>

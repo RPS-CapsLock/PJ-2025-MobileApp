@@ -30,7 +30,15 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     AndroidView(
                         factory = { context ->
-                            LayoutInflater.from(context).inflate(R.layout.main, null)
+                            val view = LayoutInflater.from(context).inflate(R.layout.main, null)
+
+                            val qrButton = view.findViewById<android.widget.Button>(R.id.qrScanButton)
+                            qrButton.setOnClickListener {
+                                val intent = android.content.Intent(context, QRscanner::class.java)
+                                context.startActivity(intent)
+                            }
+
+                            view
                         },
                         modifier = Modifier
                             .padding(innerPadding)
