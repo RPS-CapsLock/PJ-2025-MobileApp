@@ -2,6 +2,7 @@ package com.example.clapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +20,12 @@ class QRscanner : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+
+        val cancelButton = findViewById<Button>(R.id.cancelButton)
+        cancelButton.setOnClickListener {
+            Toast.makeText(this, "Skeniranje preklicano", Toast.LENGTH_SHORT).show()
+            finish()
         }
 
         val integrator = IntentIntegrator(this)
