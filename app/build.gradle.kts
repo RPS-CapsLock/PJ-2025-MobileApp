@@ -7,6 +7,10 @@ android {
     namespace = "com.example.clapp"
     compileSdk = 35
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.clapp"
         minSdk = 24

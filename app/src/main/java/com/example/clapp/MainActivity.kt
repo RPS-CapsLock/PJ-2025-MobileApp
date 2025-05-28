@@ -17,6 +17,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.clapp.ui.theme.CLAppTheme
 import android.view.LayoutInflater
 import android.widget.TextView
+import com.example.clapp.databinding.MainBinding
+import android.content.Intent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +32,24 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     AndroidView(
                         factory = { context ->
-                            val view = LayoutInflater.from(context).inflate(R.layout.main, null)
+                            val binding = MainBinding.inflate(LayoutInflater.from(context))
+                            val view = binding.root
 
-                            val qrButton = view.findViewById<android.widget.Button>(R.id.qrScanButton)
-                            qrButton.setOnClickListener {
-                                val intent = android.content.Intent(context, QRscanner::class.java)
-                                context.startActivity(intent)
+                            val activity = this@MainActivity
+
+                            binding.qrScanButton.setOnClickListener {
+                                val intent = Intent(activity, QRscanner::class.java)
+                                activity.startActivity(intent)
+                            }
+
+                            binding.loginBtn.setOnClickListener {
+                                val intent = Intent(activity, Login::class.java)
+                                activity.startActivity(intent)
+                            }
+
+                            binding.registerBtn.setOnClickListener {
+                                val intent = Intent(activity, Login::class.java)
+                                activity.startActivity(intent)
                             }
 
                             view
