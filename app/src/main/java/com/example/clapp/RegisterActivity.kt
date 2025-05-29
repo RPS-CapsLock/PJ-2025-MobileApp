@@ -17,10 +17,12 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.clapp.ui.theme.CLAppTheme
 import android.view.LayoutInflater
 import android.widget.TextView
-import com.example.clapp.databinding.MainBinding
+import com.example.clapp.databinding.ActivityRegisterBinding
 import android.content.Intent
+import com.example.clapp.MainActivity
 
-class MainActivity : ComponentActivity() {
+
+class RegisterActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,25 +34,11 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     AndroidView(
                         factory = { context ->
-                            val binding = MainBinding.inflate(LayoutInflater.from(context))
+                            val binding = ActivityRegisterBinding.inflate(LayoutInflater.from(context))
                             val view = binding.root
 
-                            val activity = this@MainActivity
+                            val activity = this@RegisterActivity
 
-                            binding.qrScanButton.setOnClickListener {
-                                val intent = Intent(activity, QRscanner::class.java)
-                                activity.startActivity(intent)
-                            }
-
-                            binding.loginBtn.setOnClickListener {
-                                val intent = Intent(activity, LoginActivity::class.java)
-                                activity.startActivity(intent)
-                            }
-
-                            binding.registerBtn.setOnClickListener {
-                                val intent = Intent(activity, RegisterActivity::class.java)
-                                activity.startActivity(intent)
-                            }
 
                             view
                         },
@@ -61,12 +49,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    CLAppTheme {
     }
 }
