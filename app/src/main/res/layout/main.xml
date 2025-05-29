@@ -26,14 +26,15 @@
         android:textColor="#000000"/>
 
     <Button
-        android:id="@+id/registerBtn"
+        android:id="@+id/loginABtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Login" />
 
     <Button
-        android:id="@+id/registerBtn"
+        android:id="@+id/registerABtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register" />
+        android:text="Button" />
+
 </LinearLayout>

@@ -42,12 +42,12 @@ class MainActivity : ComponentActivity() {
                                 activity.startActivity(intent)
                             }
 
-                            binding.loginBtn.setOnClickListener {
+                            binding.loginABtn.setOnClickListener {
                                 val intent = Intent(activity, LoginActivity::class.java)
                                 activity.startActivity(intent)
                             }
 
-                            binding.registerBtn.setOnClickListener {
+                            binding.registerABtn.setOnClickListener {
                                 val intent = Intent(activity, RegisterActivity::class.java)
                                 activity.startActivity(intent)
                             }
