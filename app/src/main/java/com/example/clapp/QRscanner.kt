@@ -50,13 +50,23 @@ class QRscanner : AppCompatActivity() {
         integrator.initiateScan()
     }
 
+    fun extractBoxIdFromUrl(url: String): Int? {
+        val parts = url.split("/")
+        return if (parts.size > 4) {
+            val rawId = parts[4]
+            rawId.trimStart('0').toIntOrNull()
+        } else {
+            null
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents != null) {
                 val qrCodeContents = result.contents
-                val boxId = qrCodeContents.toIntOrNull()
-
+                val boxId = extractBoxIdFromUrl(qrCodeContents)
+                Toast.makeText(this, "Box ID prebran iz QR kode: $boxId", Toast.LENGTH_LONG).show()
                 if (boxId != null) {
                     loadingDialog.show()
                     CoroutineScope(Dispatchers.Main).launch {
