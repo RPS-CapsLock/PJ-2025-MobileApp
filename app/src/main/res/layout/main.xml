@@ -29,5 +29,6 @@
         android:id="@+id/button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:backgroundTint="#C3F44336"
+        android:text="Mix Cocktails" />
 </LinearLayout>
