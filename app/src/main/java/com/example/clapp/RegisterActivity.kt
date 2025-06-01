@@ -72,6 +72,9 @@ class RegisterActivity : ComponentActivity() {
 
     override fun onResume() {
         super.onResume()
-
+        if (LoginUtil.faces.length() > 0) {
+            val jsonString = LoginUtil.faces.toString();
+            Log.d("FaceScan", "JSON of 50 faces: $jsonString");
+        }
     }
 }

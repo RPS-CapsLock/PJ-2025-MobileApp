@@ -22,6 +22,7 @@ object LoginUtil {
         private set;
     var password: String = ""
         private set;
+    var faces: JSONArray = JSONArray();
     private val client = OkHttpClient.Builder()
         .cookieJar(object : CookieJar {
             private val cookieStore = mutableMapOf<HttpUrl, List<Cookie>>()
