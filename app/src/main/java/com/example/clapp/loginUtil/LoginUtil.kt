@@ -32,7 +32,7 @@ object LoginUtil {
             }
         })
         .build()
-    fun sendLoginRequest(username0: String, password0: String) {
+    fun sendLoginRequest(username0: String, password0: String): Boolean {
         val json = JSONObject().apply {
             put("username", username0)
             put("password", password0)
@@ -54,7 +54,7 @@ object LoginUtil {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseData = response.body?.string()
-                    if (responseData != null){
+                    if (responseData != null) {
                         val responseJson = JSONObject(responseData);
                         userid = responseJson.getString("_id");
                         username = responseJson.getString("username");
@@ -68,8 +68,11 @@ object LoginUtil {
                 }
             }
         })
+        if(userid != "" && username != "" && password != "")
+            return true;
+        return false;
     }
-    fun sendRegisterRequest(username0: String, password0: String) {
+    fun sendRegisterRequest(username0: String, password0: String): Boolean {
         val json = JSONObject().apply {
             put("username", username0)
             put("password", password0)
@@ -105,5 +108,8 @@ object LoginUtil {
                 }
             }
         })
+        if(userid != "" && username != "" && password != "")
+            return true;
+        return false;
     }
 }

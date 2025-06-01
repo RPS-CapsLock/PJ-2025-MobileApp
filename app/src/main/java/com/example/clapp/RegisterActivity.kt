@@ -47,7 +47,9 @@ class RegisterActivity : ComponentActivity() {
                                 val username = binding.emailEditText.text.toString()
                                 val password = binding.passwordEditText.text.toString()
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    LoginUtil.sendRegisterRequest(username, password)
+                                    val success: Boolean = LoginUtil.sendRegisterRequest(username, password)
+                                    if (success)
+                                        finish();
                                 }
                             }
 

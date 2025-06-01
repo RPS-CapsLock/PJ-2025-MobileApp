@@ -39,7 +39,9 @@ class LoginActivity : ComponentActivity() {
                                 val username = binding.emailEditText.text.toString()
                                 val password = binding.passwordEditText.text.toString()
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    LoginUtil.sendLoginRequest(username, password)
+                                    val success: Boolean = LoginUtil.sendLoginRequest(username, password)
+                                    if (success)
+                                        finish();
                                 }
                             }
 

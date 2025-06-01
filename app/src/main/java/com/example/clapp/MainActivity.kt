@@ -22,6 +22,7 @@ import android.content.Intent
 import com.example.clapp.loginUtil.LoginUtil
 
 class MainActivity : ComponentActivity() {
+    lateinit var binding: MainBinding;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -33,7 +34,7 @@ class MainActivity : ComponentActivity() {
                 ) { innerPadding ->
                     AndroidView(
                         factory = { context ->
-                            val binding = MainBinding.inflate(LayoutInflater.from(context))
+                            binding = MainBinding.inflate(LayoutInflater.from(context))
                             val view = binding.root
 
                             val activity = this@MainActivity
@@ -64,6 +65,11 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+    override fun onResume() {
+        super.onResume()
+        if (LoginUtil.username != "")
+            binding.usrLabel0.text = "${LoginUtil.username}, ${LoginUtil.userid}, ${LoginUtil.password}"
     }
 }
 
