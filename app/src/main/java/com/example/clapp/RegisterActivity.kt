@@ -20,6 +20,10 @@ import android.widget.TextView
 import com.example.clapp.databinding.ActivityRegisterBinding
 import android.content.Intent
 import com.example.clapp.MainActivity
+import com.example.clapp.loginUtil.LoginUtil
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class RegisterActivity : ComponentActivity() {
@@ -39,6 +43,13 @@ class RegisterActivity : ComponentActivity() {
 
                             val activity = this@RegisterActivity
 
+                            binding.registerBtn.setOnClickListener {
+                                val username = binding.emailEditText.text.toString()
+                                val password = binding.passwordEditText.text.toString()
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    LoginUtil.sendRegisterRequest(username, password)
+                                }
+                            }
 
                             view
                         },
