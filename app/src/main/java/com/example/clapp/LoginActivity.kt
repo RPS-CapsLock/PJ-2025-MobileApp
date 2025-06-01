@@ -17,11 +17,6 @@ import com.example.clapp.ui.theme.CLAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.*
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.RequestBody.Companion.toRequestBody
-import org.json.JSONObject
-import java.io.IOException
 import com.example.clapp.loginUtil.LoginUtil
 
 class LoginActivity : ComponentActivity() {

@@ -61,4 +61,35 @@ object LoginUtil {
             }
         })
     }
+    fun sendRegisterRequest(username: String, password: String) {
+        val json = JSONObject().apply {
+            put("username", username)
+            put("password", password)
+        }
+
+        val mediaType = "application/json; charset=utf-8".toMediaType()
+        val requestBody = json.toString().toRequestBody(mediaType)
+
+        val request = Request.Builder()
+            .url("http://10.0.2.2:3001/users/")
+            .post(requestBody)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("LoginResponse", "Request failed: ${e.message}")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                if (response.isSuccessful) {
+                    val responseData = response.body?.string()
+                    Log.d("LoginResponse", "Response: $responseData")
+                } else {
+                    Log.e("LoginResponse", "Error ${response.code}: ${response.message}")
+                    val errorBody = response.body?.string()
+                    Log.e("LoginResponse", "Error body: $errorBody")
+                }
+            }
+        })
+    }
 }
