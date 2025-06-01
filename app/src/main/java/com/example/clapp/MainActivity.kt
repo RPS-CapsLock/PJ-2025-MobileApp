@@ -19,6 +19,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import com.example.clapp.databinding.MainBinding
 import android.content.Intent
+import android.util.Log
 import com.example.clapp.loginUtil.LoginUtil
 
 class MainActivity : ComponentActivity() {

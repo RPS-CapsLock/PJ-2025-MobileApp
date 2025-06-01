@@ -19,6 +19,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import com.example.clapp.databinding.ActivityRegisterBinding
 import android.content.Intent
+import android.util.Log
 import com.example.clapp.MainActivity
 import com.example.clapp.loginUtil.LoginUtil
 import kotlinx.coroutines.CoroutineScope
@@ -53,6 +54,11 @@ class RegisterActivity : ComponentActivity() {
                                 }
                             }
 
+                            binding.faceScanBtn0.setOnClickListener {
+                                val intent = Intent(activity, FaceScanActivity::class.java)
+                                activity.startActivity(intent)
+                            }
+
                             view
                         },
                         modifier = Modifier
@@ -62,5 +68,10 @@ class RegisterActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
     }
 }

@@ -1,5 +1,6 @@
 package com.example.clapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,6 +35,8 @@ class LoginActivity : ComponentActivity() {
                         factory = { context ->
                             val binding = ActivityLoginBinding.inflate(LayoutInflater.from(context))
                             val view = binding.root
+
+                            val activity =
 
                             binding.loginBtn.setOnClickListener {
                                 val username = binding.emailEditText.text.toString()
