@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CLApp"
         tools:targetApi="31" >
+        <activity android:name=".MixingActivity" />
 
         <activity
             android:name=".QRscanner"

@@ -17,6 +17,14 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.clapp.ui.theme.CLAppTheme
 import android.view.LayoutInflater
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class MixingActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.mixing_cocktails)
+    }
+}
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,6 +43,11 @@ class MainActivity : ComponentActivity() {
                             val qrButton = view.findViewById<android.widget.Button>(R.id.qrScanButton)
                             qrButton.setOnClickListener {
                                 val intent = android.content.Intent(context, QRscanner::class.java)
+                                context.startActivity(intent)
+                            }
+                            val mixingButton = view.findViewById<android.widget.Button>(R.id.Mixing_button)
+                            mixingButton.setOnClickListener {
+                                val intent = android.content.Intent(context, MixingActivity::class.java)
                                 context.startActivity(intent)
                             }
 
