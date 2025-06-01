@@ -15,6 +15,8 @@ import org.json.JSONObject
 import java.io.IOException
 
 object LoginUtil {
+    var userid: String = ""
+        private set;
     var username: String = ""
         private set;
     var password: String = ""
@@ -30,10 +32,10 @@ object LoginUtil {
             }
         })
         .build()
-    fun sendLoginRequest(username: String, password: String) {
+    fun sendLoginRequest(username0: String, password0: String) {
         val json = JSONObject().apply {
-            put("username", username)
-            put("password", password)
+            put("username", username0)
+            put("password", password0)
         }
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
@@ -52,6 +54,12 @@ object LoginUtil {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseData = response.body?.string()
+                    if (responseData != null){
+                        val responseJson = JSONObject(responseData);
+                        userid = responseJson.getString("_id");
+                        username = responseJson.getString("username");
+                        password = responseJson.getString("password");
+                    }
                     Log.d("LoginResponse", "Response: $responseData")
                 } else {
                     Log.e("LoginResponse", "Error ${response.code}: ${response.message}")
@@ -61,10 +69,10 @@ object LoginUtil {
             }
         })
     }
-    fun sendRegisterRequest(username: String, password: String) {
+    fun sendRegisterRequest(username0: String, password0: String) {
         val json = JSONObject().apply {
-            put("username", username)
-            put("password", password)
+            put("username", username0)
+            put("password", password0)
         }
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
@@ -83,6 +91,12 @@ object LoginUtil {
             override fun onResponse(call: Call, response: Response) {
                 if (response.isSuccessful) {
                     val responseData = response.body?.string()
+                    if (responseData != null){
+                        val responseJson = JSONObject(responseData);
+                        userid = responseJson.getString("_id");
+                        username = responseJson.getString("username");
+                        password = responseJson.getString("password");
+                    }
                     Log.d("LoginResponse", "Response: $responseData")
                 } else {
                     Log.e("LoginResponse", "Error ${response.code}: ${response.message}")

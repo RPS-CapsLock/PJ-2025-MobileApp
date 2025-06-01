@@ -37,4 +37,13 @@
         android:layout_height="wrap_content"
         android:text="Register" />
 
+    <TextView
+        android:id="@+id/usrLabel0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textColor="#FFFFFF"
+        android:textColorLink="#FFFFFF"
+        android:textSize="20sp" />
+
 </LinearLayout>

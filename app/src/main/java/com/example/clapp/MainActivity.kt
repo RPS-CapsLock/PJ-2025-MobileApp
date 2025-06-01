@@ -19,6 +19,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import com.example.clapp.databinding.MainBinding
 import android.content.Intent
+import com.example.clapp.loginUtil.LoginUtil
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +52,8 @@ class MainActivity : ComponentActivity() {
                                 val intent = Intent(activity, RegisterActivity::class.java)
                                 activity.startActivity(intent)
                             }
+
+                            binding.usrLabel0.text = LoginUtil.username;
 
                             view
                         },
