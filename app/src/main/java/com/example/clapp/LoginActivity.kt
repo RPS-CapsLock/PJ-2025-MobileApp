@@ -48,6 +48,10 @@ class LoginActivity : ComponentActivity() {
                                 }
                             }
 
+                            binding.goBackBtn0.setOnClickListener {
+                                finish();
+                            }
+
                             view
                         },
                         modifier = Modifier
