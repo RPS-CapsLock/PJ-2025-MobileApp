@@ -25,6 +25,7 @@ import com.example.clapp.loginUtil.LoginUtil
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONArray
 
 
 class RegisterActivity : ComponentActivity() {
@@ -60,6 +61,8 @@ class RegisterActivity : ComponentActivity() {
 
                             binding.faceScanBtn0.setOnClickListener {
                                 val intent = Intent(activity, FaceScanActivity::class.java)
+                                LoginUtil.faces = JSONArray()
+                                intent.putExtra("maxFaces", 50)
                                 activity.startActivity(intent)
                             }
 

@@ -38,12 +38,14 @@ class FaceScanActivity : ComponentActivity() {
     private lateinit var cameraExecutor: ExecutorService
     private val faceBase64List = ArrayList<String>()
     private var faceCount = 0
-    private val maxFaces = 50
+    private var maxFaces = 50
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        maxFaces = intent.getIntExtra("maxFaces", 50);
 
         setContent {
             CLAppTheme {

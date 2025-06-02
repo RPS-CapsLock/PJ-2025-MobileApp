@@ -15,6 +15,8 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
+val LINK_TO_SERVER = "http://127.0.0.1:3001"
+
 object LoginUtil {
     var userid: String = ""
         private set;
@@ -46,7 +48,7 @@ object LoginUtil {
         val requestBody = json.toString().toRequestBody(mediaType)
 
         val request = Request.Builder()
-            .url("https://127.0.0.1:3001/users/login")
+            .url("${LINK_TO_SERVER}/users/login")
             .post(requestBody)
             .build()
 
@@ -88,7 +90,7 @@ object LoginUtil {
         val requestBody = json.toString().toRequestBody(mediaType)
 
         val request = Request.Builder()
-            .url("https://127.0.0.1:3001/users/")
+            .url("${LINK_TO_SERVER}/users/")
             .post(requestBody)
             .build()
 
