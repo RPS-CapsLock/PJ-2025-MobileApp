@@ -46,7 +46,7 @@ object LoginUtil {
         val requestBody = json.toString().toRequestBody(mediaType)
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:3001/users/login")
+            .url("https://127.0.0.1:3001/users/login")
             .post(requestBody)
             .build()
 
@@ -88,7 +88,7 @@ object LoginUtil {
         val requestBody = json.toString().toRequestBody(mediaType)
 
         val request = Request.Builder()
-            .url("http://10.0.2.2:3001/users/")
+            .url("https://127.0.0.1:3001/users/")
             .post(requestBody)
             .build()
 

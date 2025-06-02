@@ -146,11 +146,21 @@ class FaceScanActivity : ComponentActivity() {
         }
 
         private fun imageProxyToBitmap(imageProxy: ImageProxy): Bitmap? {
-            val buffer = imageProxy.planes[0].buffer
-            val data = ByteArray(buffer.remaining())
-            buffer.get(data)
+            val yBuffer = imageProxy.planes[0].buffer
+            val uBuffer = imageProxy.planes[1].buffer
+            val vBuffer = imageProxy.planes[2].buffer
+
+            val ySize = yBuffer.remaining()
+            val uSize = uBuffer.remaining()
+            val vSize = vBuffer.remaining()
+
+            val nv21 = ByteArray(ySize + uSize + vSize)
+            yBuffer.get(nv21, 0, ySize)
+            vBuffer.get(nv21, ySize, vSize)
+            uBuffer.get(nv21, ySize + vSize, uSize)
+
             val yuvImage = android.graphics.YuvImage(
-                data,
+                nv21,
                 android.graphics.ImageFormat.NV21,
                 imageProxy.width, imageProxy.height,
                 null
@@ -162,7 +172,14 @@ class FaceScanActivity : ComponentActivity() {
                 out
             )
             val imageBytes = out.toByteArray()
-            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            var bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+            val rotationDegrees = imageProxy.imageInfo.rotationDegrees
+            val matrix = android.graphics.Matrix()
+            matrix.postRotate(rotationDegrees.toFloat())
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+            return bitmap
         }
 
         private fun cropFace(bitmap: Bitmap, rect: Rect): Bitmap {
@@ -177,8 +194,10 @@ class FaceScanActivity : ComponentActivity() {
             val outputStream = ByteArrayOutputStream()
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
             val byteArray = outputStream.toByteArray()
-            return Base64.encodeToString(byteArray, Base64.NO_WRAP)
+            val base64 = Base64.encodeToString(byteArray, Base64.NO_WRAP)
+            return "data:image/jpeg;base64,$base64"
         }
+
 
         private fun saveFacesToJson() {
             val jsonArray = JSONArray(faceBase64List)
