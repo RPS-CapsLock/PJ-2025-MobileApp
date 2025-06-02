@@ -54,6 +54,10 @@ class RegisterActivity : ComponentActivity() {
                                 }
                             }
 
+                            binding.goBackBtn1.setOnClickListener {
+                                finish();
+                            }
+
                             binding.faceScanBtn0.setOnClickListener {
                                 val intent = Intent(activity, FaceScanActivity::class.java)
                                 activity.startActivity(intent)
