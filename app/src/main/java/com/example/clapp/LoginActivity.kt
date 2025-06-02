@@ -36,7 +36,7 @@ class LoginActivity : ComponentActivity() {
                             val binding = ActivityLoginBinding.inflate(LayoutInflater.from(context))
                             val view = binding.root
 
-                            val activity =
+                            val activity = this@LoginActivity
 
                             binding.loginBtn.setOnClickListener {
                                 val username = binding.emailEditText.text.toString()
@@ -50,6 +50,11 @@ class LoginActivity : ComponentActivity() {
 
                             binding.goBackBtn0.setOnClickListener {
                                 finish();
+                            }
+
+                            binding.faceIdBtn1.setOnClickListener {
+                                val intent = Intent(activity, FaceScanActivity::class.java)
+                                activity.startActivity(intent)
                             }
 
                             view

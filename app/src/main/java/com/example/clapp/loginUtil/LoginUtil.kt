@@ -38,7 +38,8 @@ object LoginUtil {
         val json = JSONObject().apply {
             put("username", username0)
             put("password", password0)
-            put("_2FA", false)
+            put("_2FA", true)
+            put("images", faces)
         }
 
         val mediaType = "application/json; charset=utf-8".toMediaType()
