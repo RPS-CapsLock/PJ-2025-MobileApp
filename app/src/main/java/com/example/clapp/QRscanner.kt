@@ -1,5 +1,6 @@
 package com.example.clapp
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
@@ -9,8 +10,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.google.zxing.integration.android.IntentIntegrator
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.io.File
 
 class QRscanner : AppCompatActivity() {
+
+    private lateinit var loadingDialog: ProgressDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,6 +29,10 @@ class QRscanner : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        loadingDialog = ProgressDialog(this)
+        loadingDialog.setMessage("Obdelujem, prosim počakajte...")
+        loadingDialog.setCancelable(false)
 
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         cancelButton.setOnClickListener {
@@ -42,7 +54,36 @@ class QRscanner : AppCompatActivity() {
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) {
             if (result.contents != null) {
-                Toast.makeText(this, "QR vsebina: ${result.contents}", Toast.LENGTH_LONG).show()
+                val qrCodeContents = result.contents
+                val boxId = qrCodeContents.toIntOrNull()
+
+                if (boxId != null) {
+                    loadingDialog.show()
+                    CoroutineScope(Dispatchers.Main).launch {
+                        val response = ApiBox.openBox(boxId)
+                        loadingDialog.dismiss()
+                        response
+                            .onSuccess { base64Audio ->
+                                val outputFile = File(this@QRscanner.filesDir, "sound.mp3")
+                                val saved = AudioUtil.saveBase64ToMp3(base64Audio, outputFile)
+                                if (saved) {
+                                    val played = AudioUtil.playMp3File(outputFile)
+                                    if (played) {
+                                        Toast.makeText(this@QRscanner, "Zvok predvajan uspešno!", Toast.LENGTH_LONG).show()
+                                    } else {
+                                        Toast.makeText(this@QRscanner, "Napaka pri predvajanju zvoka!", Toast.LENGTH_LONG).show()
+                                    }
+                                } else {
+                                    Toast.makeText(this@QRscanner, "Napaka pri shranjevanju zvoka!", Toast.LENGTH_LONG).show()
+                                }
+                            }
+                            .onFailure { error ->
+                                Toast.makeText(this@QRscanner, "Napaka: ${error.message}", Toast.LENGTH_LONG).show()
+                            }
+                    }
+                } else {
+                    Toast.makeText(this, "Neveljavna QR koda: ni številka", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(this, "Skeniranje preklicano", Toast.LENGTH_SHORT).show()
             }
