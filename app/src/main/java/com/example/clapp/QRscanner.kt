@@ -49,46 +49,4 @@ class QRscanner : AppCompatActivity() {
         integrator.setOrientationLocked(true)
         integrator.initiateScan()
     }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
-        if (result != null) {
-            if (result.contents != null) {
-                val qrCodeContents = result.contents
-                val boxId = qrCodeContents.toIntOrNull()
-
-                if (boxId != null) {
-                    loadingDialog.show()
-                    CoroutineScope(Dispatchers.Main).launch {
-                        val response = ApiBox.openBox(boxId)
-                        loadingDialog.dismiss()
-                        response
-                            .onSuccess { base64Audio ->
-                                val outputFile = File(this@QRscanner.filesDir, "sound.mp3")
-                                val saved = AudioUtil.saveBase64ToMp3(base64Audio, outputFile)
-                                if (saved) {
-                                    val played = AudioUtil.playMp3File(outputFile)
-                                    if (played) {
-                                        Toast.makeText(this@QRscanner, "Zvok predvajan uspešno!", Toast.LENGTH_LONG).show()
-                                    } else {
-                                        Toast.makeText(this@QRscanner, "Napaka pri predvajanju zvoka!", Toast.LENGTH_LONG).show()
-                                    }
-                                } else {
-                                    Toast.makeText(this@QRscanner, "Napaka pri shranjevanju zvoka!", Toast.LENGTH_LONG).show()
-                                }
-                            }
-                            .onFailure { error ->
-                                Toast.makeText(this@QRscanner, "Napaka: ${error.message}", Toast.LENGTH_LONG).show()
-                            }
-                    }
-                } else {
-                    Toast.makeText(this, "Neveljavna QR koda: ni številka", Toast.LENGTH_SHORT).show()
-                }
-            } else {
-                Toast.makeText(this, "Skeniranje preklicano", Toast.LENGTH_SHORT).show()
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data)
-        }
-    }
 }

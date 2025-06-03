@@ -2,72 +2,45 @@ package com.example.clapp
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.viewinterop.AndroidView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.clapp.databinding.ActivityLoginBinding
-import com.example.clapp.ui.theme.CLAppTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.clapp.loginUtil.LoginUtil
 import org.json.JSONArray
 
-class LoginActivity : ComponentActivity() {
+class LoginActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            CLAppTheme {
-                Scaffold(modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(0xFF001F54))
-                ) { innerPadding ->
-                    AndroidView(
-                        factory = { context ->
-                            val binding = ActivityLoginBinding.inflate(LayoutInflater.from(context))
-                            val view = binding.root
 
-                            val activity = this@LoginActivity
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-                            binding.loginBtn.setOnClickListener {
-                                val username = binding.emailEditText.text.toString()
-                                val password = binding.passwordEditText.text.toString()
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    val success: Boolean = LoginUtil.sendLoginRequest(username, password)
-                                    if (success)
-                                        finish();
-                                }
-                            }
+        binding.loginBtn.setOnClickListener {
+            val username = binding.emailEditText.text.toString()
+            val password = binding.passwordEditText.text.toString()
 
-                            binding.goBackBtn0.setOnClickListener {
-                                finish();
-                            }
-
-                            binding.faceIdBtn1.setOnClickListener {
-                                val intent = Intent(activity, FaceScanActivity::class.java)
-                                LoginUtil.faces = JSONArray()
-                                intent.putExtra("maxFaces", 1)
-                                activity.startActivity(intent)
-                            }
-
-                            view
-                        },
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .fillMaxSize()
-                    )
+            CoroutineScope(Dispatchers.IO).launch {
+                val success: Boolean = LoginUtil.sendLoginRequest(username, password)
+                if (success) {
+                    finish()
                 }
             }
+        }
+
+        binding.goBackBtn0.setOnClickListener {
+            finish()
+        }
+
+        binding.faceIdBtn1.setOnClickListener {
+            val intent = Intent(this@LoginActivity, FaceScanActivity::class.java)
+            LoginUtil.faces = JSONArray()
+            intent.putExtra("maxFaces", 1) // Samo 1 slika
+            startActivity(intent)
         }
     }
 }
