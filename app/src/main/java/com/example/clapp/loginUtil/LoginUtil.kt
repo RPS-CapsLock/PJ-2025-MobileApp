@@ -16,7 +16,7 @@ import org.json.JSONObject
 import java.io.IOException
 
 //val LINK_TO_SERVER = "http://127.0.0.1:3001"
-val LINK_TO_SERVER = "https://4e95-164-8-162-126.ngrok-free.app"
+val LINK_TO_SERVER = "https://5706-109-182-248-171.ngrok-free.app"
 
 object LoginUtil {
     var userid: String = ""
