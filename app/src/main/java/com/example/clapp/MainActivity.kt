@@ -15,18 +15,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.clapp.ui.theme.CLAppTheme
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
-
-class MixingActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.mixing_cocktails)
-
-        val backButton = findViewById<android.widget.Button>(R.id.Back_button)
-        backButton.setOnClickListener {
-            finish()
-        }
-    }
-}
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,7 +44,6 @@ class MainActivity : ComponentActivity() {
                                 val intent = android.content.Intent(context, MixingActivity::class.java)
                                 context.startActivity(intent)
                             }
-
                             view
                         },
                         modifier = Modifier

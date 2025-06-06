@@ -2,12 +2,13 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guide"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#001F54">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/cocktails_2"
         android:layout_width="131dp"
         android:layout_height="422dp"
         android:layout_marginEnd="4dp"
@@ -25,15 +26,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cocktails_1"
         android:layout_width="131dp"
         android:layout_height="422dp"
-        app:layout_constraintEnd_toStartOf="@+id/recyclerView"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toStartOf="@+id/cocktails_2"
+        app:layout_constraintHorizontal_bias="0.02"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/Mix_cocktails"
         android:layout_width="258dp"
         android:layout_height="0dp"
         android:backgroundTint="#F43737"
