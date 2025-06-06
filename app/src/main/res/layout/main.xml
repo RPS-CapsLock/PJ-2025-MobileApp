@@ -31,4 +31,11 @@
         android:layout_height="wrap_content"
         android:backgroundTint="#C3F44336"
         android:text="Mix Cocktails" />
+
+    <Button
+        android:id="@+id/buy_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#C3F44336"
+        android:text="Buy" />
 </LinearLayout>

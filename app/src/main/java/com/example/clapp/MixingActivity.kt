@@ -53,7 +53,8 @@ class MixingActivity : AppCompatActivity() {
         }
     }
     private fun mixCocktails(first: Cocktail, second: Cocktail) {
-        CartManager.cart.addMixedCocktail(first, second)
+        CartManager.addMixedCocktail(first, second)
         Toast.makeText(this, "Added ${first.name} + ${second.name} to cart!", Toast.LENGTH_SHORT).show()
     }
+
 }

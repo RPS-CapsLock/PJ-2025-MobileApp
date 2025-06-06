@@ -17,6 +17,10 @@ class Cart {
 
     fun getAllMixedCocktails(): List<MixedCocktail> = mixedCocktails
 
+    fun addAll(mixedCocktailsList: List<MixedCocktail>) {
+        mixedCocktails.addAll(mixedCocktailsList)
+    }
+
     fun clear() {
         mixedCocktails.clear()
     }
