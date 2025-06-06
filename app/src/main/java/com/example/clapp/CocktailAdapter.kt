@@ -6,10 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class CocktailAdapter(private val cocktails: List<Cocktail>) :
-    RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
+class CocktailAdapter(
+    private val cocktails: List<Cocktail>,
+    private val onItemClick: (Cocktail) -> Unit
+) : RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
 
-    class CocktailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    private var selectedPosition = RecyclerView.NO_POSITION
+
+    inner class CocktailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cocktailName: TextView = view.findViewById(R.id.cocktailName)
     }
 
@@ -20,7 +24,28 @@ class CocktailAdapter(private val cocktails: List<Cocktail>) :
     }
 
     override fun onBindViewHolder(holder: CocktailViewHolder, position: Int) {
-        holder.cocktailName.text = cocktails[position].name
+        val cocktail = cocktails[position]
+        holder.cocktailName.text = cocktail.name
+
+        if (selectedPosition == position) {
+            holder.itemView.setBackgroundColor(
+                holder.itemView.context.getColor(R.color.selected_background)
+            )
+        } else {
+            holder.itemView.setBackgroundColor(
+                holder.itemView.context.getColor(android.R.color.transparent)
+            )
+        }
+
+        holder.itemView.setOnClickListener {
+            val previousPosition = selectedPosition
+            selectedPosition = position
+
+            notifyItemChanged(previousPosition)
+            notifyItemChanged(selectedPosition)
+
+            onItemClick(cocktail)
+        }
     }
 
     override fun getItemCount() = cocktails.size

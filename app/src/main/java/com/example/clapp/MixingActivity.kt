@@ -12,13 +12,20 @@ class MixingActivity : AppCompatActivity() {
         setContentView(R.layout.mixing_cocktails)
 
         val cocktails = loadCocktailsFromAssets(this)
+        val adapter1 = CocktailAdapter(cocktails) { selectedCocktail ->
+            Toast.makeText(this, "Selected in list 1: ${selectedCocktail.name}", Toast.LENGTH_SHORT).show()
+        }
+
+        val adapter2 = CocktailAdapter(cocktails) { selectedCocktail ->
+            Toast.makeText(this, "Selected in list 2: ${selectedCocktail.name}", Toast.LENGTH_SHORT).show()
+        }
 
         val recyclerView1 = findViewById<RecyclerView>(R.id.cocktails_1)
-        recyclerView1.adapter = CocktailAdapter(cocktails)
+        recyclerView1.adapter = adapter1
         recyclerView1.layoutManager = LinearLayoutManager(this)
 
         val recyclerView2 = findViewById<RecyclerView>(R.id.cocktails_2)
-        recyclerView2.adapter = CocktailAdapter(cocktails)
+        recyclerView2.adapter = adapter2
         recyclerView2.layoutManager = LinearLayoutManager(this)
 
         val backButton = findViewById<android.widget.Button>(R.id.Back_button)
