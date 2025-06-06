@@ -1,5 +1,6 @@
 package com.example.clapp
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +12,9 @@ class CocktailAdapter(
     private val onItemClick: (Cocktail) -> Unit
 ) : RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
 
-    private var selectedPosition = RecyclerView.NO_POSITION
+    private var selectedCocktail: Cocktail? = null
 
-    inner class CocktailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class CocktailViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val cocktailName: TextView = view.findViewById(R.id.cocktailName)
     }
 
@@ -27,26 +28,28 @@ class CocktailAdapter(
         val cocktail = cocktails[position]
         holder.cocktailName.text = cocktail.name
 
-        if (selectedPosition == position) {
-            holder.itemView.setBackgroundColor(
-                holder.itemView.context.getColor(R.color.selected_background)
-            )
+        if (cocktail == selectedCocktail) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#FFDDDDFF")) // example highlight
         } else {
-            holder.itemView.setBackgroundColor(
-                holder.itemView.context.getColor(android.R.color.transparent)
-            )
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT)
         }
 
         holder.itemView.setOnClickListener {
-            val previousPosition = selectedPosition
-            selectedPosition = position
-
-            notifyItemChanged(previousPosition)
-            notifyItemChanged(selectedPosition)
-
+            selectedCocktail = cocktail
+            notifyDataSetChanged()
             onItemClick(cocktail)
         }
     }
 
     override fun getItemCount() = cocktails.size
+
+    fun setSelectedCocktail(cocktail: Cocktail?) {
+        selectedCocktail = cocktail
+        notifyDataSetChanged()
+    }
+
+    fun clearSelection() {
+        selectedCocktail = null
+        notifyDataSetChanged()
+    }
 }

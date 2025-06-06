@@ -7,17 +7,25 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 class MixingActivity : AppCompatActivity() {
+    private var selectedCocktail1: Cocktail? = null
+    private var selectedCocktail2: Cocktail? = null
+
+    private lateinit var adapter1: CocktailAdapter
+    private lateinit var adapter2: CocktailAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.mixing_cocktails)
 
         val cocktails = loadCocktailsFromAssets(this)
-        val adapter1 = CocktailAdapter(cocktails) { selectedCocktail ->
-            Toast.makeText(this, "Selected in list 1: ${selectedCocktail.name}", Toast.LENGTH_SHORT).show()
+
+        adapter1 = CocktailAdapter(cocktails) { selected ->
+            selectedCocktail1 = selected
+            adapter1.setSelectedCocktail(selected)
         }
 
-        val adapter2 = CocktailAdapter(cocktails) { selectedCocktail ->
-            Toast.makeText(this, "Selected in list 2: ${selectedCocktail.name}", Toast.LENGTH_SHORT).show()
+        adapter2 = CocktailAdapter(cocktails) { selected ->
+            selectedCocktail2 = selected
+            adapter2.setSelectedCocktail(selected)
         }
 
         val recyclerView1 = findViewById<RecyclerView>(R.id.cocktails_1)
@@ -29,13 +37,23 @@ class MixingActivity : AppCompatActivity() {
         recyclerView2.layoutManager = LinearLayoutManager(this)
 
         val backButton = findViewById<android.widget.Button>(R.id.Back_button)
-        backButton.setOnClickListener {
-            finish()
-        }
+        backButton.setOnClickListener { finish() }
 
         val mixingButton = findViewById<android.widget.Button>(R.id.Mix_cocktails)
         mixingButton.setOnClickListener {
-            Toast.makeText(this, "Mixing button clicked!", Toast.LENGTH_SHORT).show()
+            if (selectedCocktail1 != null && selectedCocktail2 != null) {
+                mixCocktails(selectedCocktail1!!, selectedCocktail2!!)
+                selectedCocktail1 = null
+                selectedCocktail2 = null
+                adapter1.clearSelection()
+                adapter2.clearSelection()
+            } else {
+                Toast.makeText(this, "Select one cocktail from each list!", Toast.LENGTH_SHORT).show()
+            }
         }
+    }
+    private fun mixCocktails(first: Cocktail, second: Cocktail) {
+        CartManager.cart.addMixedCocktail(first, second)
+        Toast.makeText(this, "Added ${first.name} + ${second.name} to cart!", Toast.LENGTH_SHORT).show()
     }
 }
