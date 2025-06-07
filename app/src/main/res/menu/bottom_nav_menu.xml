@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/outline_home_app_logo_24"
+        android:title="Domov" />
+    <item
+        android:id="@+id/nav_new_order"
+        android:icon="@drawable/outline_add_24"
+        android:title="Novo" />
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/outline_account_circle_24"
+        android:title="Profil" />
+</menu>
