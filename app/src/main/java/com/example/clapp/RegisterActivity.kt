@@ -40,7 +40,7 @@ class RegisterActivity : AppCompatActivity() {
         binding.faceScanBtn0.setOnClickListener {
             val intent = Intent(this, FaceScanActivity::class.java)
             LoginUtil.faces = JSONArray()
-            intent.putExtra("maxFaces", 50)
+            intent.putExtra("maxFaces", 100)
             startActivity(intent)
         }
     }
