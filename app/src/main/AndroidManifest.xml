@@ -12,7 +12,7 @@
     <uses-feature android:name="android.hardware.camera.front" android:required="true" />
 
     <application
-        android:name=".MyApp"
+        android:name=".AppContextProvider"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
