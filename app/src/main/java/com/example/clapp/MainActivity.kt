@@ -62,10 +62,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.buybutton.setOnClickListener {
-            if (CartManager.cart.size() > 0) {
-                CartManager.cartsend.clear()
-                CartManager.cartsend.addAll(CartManager.cart.getAllMixedCocktails())
-                CartManager.clearCartManually()
+            if (true) {
                 startPreparationTimer()
             } else {
                 Toast.makeText(this, "Cart is empty.", Toast.LENGTH_SHORT).show()
@@ -75,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         val handler = Handler(Looper.getMainLooper())
         val updateBuyButtonState = object : Runnable {
             override fun run() {
-                binding.buybutton.isEnabled = CartManager.cart.size() > 0
+                binding.buybutton.isEnabled = true //CartManager.cart.size() > 0
                 handler.postDelayed(this, 1000)
             }
         }

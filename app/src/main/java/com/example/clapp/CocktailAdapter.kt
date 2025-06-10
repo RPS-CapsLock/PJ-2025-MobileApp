@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class CocktailAdapter(
-    private val cocktails: List<Cocktail>,
+    private var cocktails: List<Cocktail>,
     private val onItemClick: (Cocktail) -> Unit
 ) : RecyclerView.Adapter<CocktailAdapter.CocktailViewHolder>() {
 
@@ -29,7 +29,7 @@ class CocktailAdapter(
         holder.cocktailName.text = cocktail.name
 
         if (cocktail == selectedCocktail) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#FFDDDDFF")) // example highlight
+            holder.itemView.setBackgroundColor(Color.parseColor("#FFDDDDFF")) // highlighted color
         } else {
             holder.itemView.setBackgroundColor(Color.TRANSPARENT)
         }
@@ -49,6 +49,12 @@ class CocktailAdapter(
     }
 
     fun clearSelection() {
+        selectedCocktail = null
+        notifyDataSetChanged()
+    }
+
+    fun updateData(newCocktails: List<Cocktail>) {
+        cocktails = newCocktails
         selectedCocktail = null
         notifyDataSetChanged()
     }
