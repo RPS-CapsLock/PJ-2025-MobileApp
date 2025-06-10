@@ -10,10 +10,12 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.json.JSONObject
+import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import org.json.JSONObject
 
 fun hasInternetPermission(context: Context): Boolean {
     return ContextCompat.checkSelfPermission(
@@ -51,15 +53,13 @@ class MixingActivity : AppCompatActivity() {
         recyclerView2.adapter = adapter2
         recyclerView2.layoutManager = LinearLayoutManager(this)
 
-        if(hasInternetPermission(this)){
-            Log.d("CocktailFetch", "success")
+        if (hasInternetPermission(this)) {
+            Log.d("CocktailFetch", "Internet permission granted")
         }
 
-        val backButton = findViewById<android.widget.Button>(R.id.Back_button)
-        backButton.setOnClickListener { finish() }
+        findViewById<android.widget.Button>(R.id.Back_button).setOnClickListener { finish() }
 
-        val mixingButton = findViewById<android.widget.Button>(R.id.Mix_cocktails)
-        mixingButton.setOnClickListener {
+        findViewById<android.widget.Button>(R.id.Mix_cocktails).setOnClickListener {
             if (selectedCocktail1 != null && selectedCocktail2 != null) {
                 mixCocktails(selectedCocktail1!!, selectedCocktail2!!)
                 selectedCocktail1 = null
@@ -80,40 +80,64 @@ class MixingActivity : AppCompatActivity() {
                 val client = OkHttpClient()
                 val link = "http://10.0.2.2:3001"
 
-                val request = Request.Builder()
-                    .url("${link}/users/session/userid")
-                    .build()
+                Log.d("MixingActivity", "Requesting userId from $link/users/session/userid")
 
-                val response = client.newCall(request).execute()
+                val response = withContext(Dispatchers.IO) {
+                    val request = Request.Builder()
+                        .url("$link/users/session/userid")
+                        .build()
+                    client.newCall(request).execute()
+                }
+
+                // Replace with a valid ObjectId from your MongoDB users collection for testing
+                val fallbackUserId = "64a5f8a08f1b9c1234567890"
 
                 val userId = if (!response.isSuccessful) {
                     if (response.code == 401) {
-                        "552"
+                        Log.w("MixingActivity", "Unauthorized, defaulting userId to fallback valid ObjectId: $fallbackUserId")
+                        fallbackUserId
                     } else {
                         throw Exception("Failed to get session user ID: HTTP ${response.code}")
                     }
                 } else {
                     val bodyString = response.body?.string() ?: throw Exception("Empty response body")
+                    Log.d("MixingActivity", "Response body for userId request: $bodyString")
                     val json = JSONObject(bodyString)
-                    json.optString("userId", "552")
+                    json.optString("userId", fallbackUserId)
                 }
 
-                CartManager.addMixedCocktail(userId, first, second)
+                Log.d("MixingActivity", "Obtained userId: $userId")
 
-                Toast.makeText(
-                    this@MixingActivity,
-                    "Added ${first.name} + ${second.name} to cart!",
-                    Toast.LENGTH_SHORT
-                ).show()
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(this@MixingActivity, "Adding cocktails to cart...", Toast.LENGTH_SHORT).show()
+                }
+
+                withContext(Dispatchers.IO) {
+                    CartManager.addMixedCocktail(userId, first, second)
+                }
+
+                Log.d("MixingActivity", "Cocktails added to cart successfully")
+
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MixingActivity,
+                        "Added ${first.name} + ${second.name} to cart!",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             } catch (e: Exception) {
-                Toast.makeText(
-                    this@MixingActivity,
-                    "Failed to add cocktails to cart: ${e.message}",
-                    Toast.LENGTH_LONG
-                ).show()
+                Log.e("MixingActivity", "Error adding cocktails to cart", e)
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        this@MixingActivity,
+                        "Failed to add cocktails to cart: ${e.message ?: "Unknown error"}",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
             }
         }
     }
+
 
     private fun loadCocktailsFromBackend() {
         lifecycleScope.launch {
