@@ -12,8 +12,6 @@ import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import com.example.clapp.loginUtil.LoginUtil
-import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.*
 import org.json.JSONArray
 import java.io.IOException
@@ -83,44 +81,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        binding.approveLoginBtn.setOnClickListener {
-            sendLoginApproval()
-        }
     }
-
-    private fun sendLoginApproval() {
-        val requestId = "test-request-id-123"
-
-        val formBody = FormBody.Builder()
-            .add("requestId", requestId)
-            .build()
-
-        val request = Request.Builder()
-            .url("http://10.0.2.2:3001/faceid/approve")
-            .post(formBody)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.e("NETWORK_ERROR", "Network Failure: ${e.localizedMessage}", e)
-                runOnUiThread {
-                    toast("Napaka pri pošiljanju potrditve!")
-                }
-            }
-
-            override fun onResponse(call: Call, response: Response) {
-                Log.d("NETWORK_SUCCESS", "Response: ${response.code} ${response.message}")
-                runOnUiThread {
-                    if (response.isSuccessful) {
-                        toast("Prijava uspešno odobrena!")
-                    } else {
-                        toast("Napaka: ${response.message}")
-                    }
-                }
-            }
-        })
-    }
-
 
     private fun toast(message: String) {
         runOnUiThread {
