@@ -2,4 +2,6 @@
     <string name="app_name">CL App</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="channel_name">My App Notifications</string>
+    <string name="channel_description">Notifications from My App</string>
 </resources>

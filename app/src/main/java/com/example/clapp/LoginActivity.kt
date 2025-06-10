@@ -4,11 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.clapp.databinding.ActivityLoginBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.example.clapp.loginUtil.LoginUtil
+import com.google.firebase.messaging.FirebaseMessaging
 import org.json.JSONArray
 
 class LoginActivity : AppCompatActivity() {

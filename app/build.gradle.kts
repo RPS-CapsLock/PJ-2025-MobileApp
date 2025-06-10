@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.services)
 }
 
 android {
@@ -61,12 +62,12 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-    // CameraX
     implementation("androidx.camera:camera-core:1.3.2")
     implementation("androidx.camera:camera-camera2:1.3.2")
     implementation("androidx.camera:camera-lifecycle:1.3.2")
     implementation("androidx.camera:camera-view:1.3.2")
 
-    // ML Kit Face Detection
     implementation("com.google.mlkit:face-detection:16.1.5")
+
+    implementation("com.google.firebase:firebase-messaging-ktx:24.1.1")
 }

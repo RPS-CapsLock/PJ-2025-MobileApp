@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <!-- Camera Preview -->
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
         android:layout_width="0dp"
@@ -17,7 +16,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Scanning Text -->
     <TextView
         android:id="@+id/textViewScanning"
         android:layout_width="wrap_content"

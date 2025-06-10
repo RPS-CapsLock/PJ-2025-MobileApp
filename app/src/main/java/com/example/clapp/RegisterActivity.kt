@@ -4,12 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.clapp.databinding.ActivityRegisterBinding
 import com.example.clapp.loginUtil.LoginUtil
+import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.json.JSONArray
+import com.google.firebase.FirebaseApp
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -17,6 +20,11 @@ class RegisterActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val app = FirebaseApp.initializeApp(this)
+        Log.d("MyApp", "HAHAH")
+        Log.d("MyApp", "FirebaseApp initialized: ${app != null}")
+
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
