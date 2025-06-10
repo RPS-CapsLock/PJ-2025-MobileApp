@@ -16,7 +16,6 @@ import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
 
-//val LINK_TO_SERVER = "http://127.0.0.1:3001"
 val LINK_TO_SERVER = "https://42fd-213-161-25-74.ngrok-free.app"
 
 object LoginUtil {

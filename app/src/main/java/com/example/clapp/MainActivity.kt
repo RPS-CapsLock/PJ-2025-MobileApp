@@ -13,6 +13,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            val channelId = "default_channel_id"
+            val channelName = "Privzeti Kanal"
+            val importance = android.app.NotificationManager.IMPORTANCE_HIGH
+            val notificationChannel = android.app.NotificationChannel(channelId, channelName, importance)
+            val notificationManager = getSystemService(android.app.NotificationManager::class.java)
+            notificationManager.createNotificationChannel(notificationChannel)
+        }
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
