@@ -1,11 +1,14 @@
 package com.example.clapp
 
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
@@ -27,16 +30,40 @@ class FaceScanActivity : AppCompatActivity() {
     private var faceCount = 0
     private var maxFaces = 50
 
+    private val CAMERA_PERMISSION_REQUEST_CODE = 1001
+
+    lateinit var requestPermissionLauncher: ActivityResultLauncher<String>;
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityFaceScanBinding.inflate(layoutInflater)
+
+        binding = ActivityFaceScanBinding.inflate(layoutInflater);
         setContentView(binding.root)
 
         cameraExecutor = Executors.newSingleThreadExecutor()
-
         maxFaces = intent.getIntExtra("maxFaces", 50)
 
-        startCamera()
+        requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                startCamera()
+            } else {
+                Log.e("FaceScan", "Camera permission denied")
+            }
+        }
+
+        if (ContextCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.CAMERA
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.e("01", "PREMISSIONS GRANTED")
+            startCamera()
+        } else {
+            Log.e("00", "PREMISSIONS NOT GRANTED")
+            requestPermissionLauncher.launch(android.Manifest.permission.CAMERA)
+        }
     }
 
     private fun startCamera() {
@@ -174,6 +201,21 @@ class FaceScanActivity : AppCompatActivity() {
             runOnUiThread {
                 ProcessCameraProvider.getInstance(this@FaceScanActivity).get().unbindAll()
                 finish()
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == android.content.pm.PackageManager.PERMISSION_GRANTED) {
+                startCamera()
+            } else {
+                Log.e("FaceScan", "Camera permission denied")
             }
         }
     }

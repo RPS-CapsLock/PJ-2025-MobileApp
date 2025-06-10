@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.example.clapp.databinding.ActivityLoginBinding
 import com.example.clapp.loginUtil.LoginUtil
 import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.example.clapp.loginUtil.LoginUtil
+import com.google.firebase.messaging.FirebaseMessaging
 import okhttp3.*
 import org.json.JSONArray
 import java.io.IOException
