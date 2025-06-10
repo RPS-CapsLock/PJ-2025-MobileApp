@@ -4,3 +4,6 @@
         <domain>164.8.160.246</domain>
     </domain-config>
 </network-security-config>
+        <domain includeSubdomains="false">10.0.2.2</domain>
+    </domain-config>
+</network-security-config>
